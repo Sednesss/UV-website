@@ -1,0 +1,9 @@
+{
+    "name": "simple-landing/web",
+    "autoload": {
+        "psr-4": {
+            "App\\Src\\": "src/"
+        }
+    },
+    "require": {}
+}

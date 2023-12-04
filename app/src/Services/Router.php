@@ -6,11 +6,12 @@ class Router
 {
     private static $list = [];
 
-    public static function page($uri, $pageTitle)
+    public static function page($uri, $pageTitle, $lang = null)
     {
         self::$list[] = [
             'uri' => $uri,
             'page' => $pageTitle,
+            'lang' => $lang,
             'post' => false
         ];
     }
@@ -38,6 +39,9 @@ class Router
                     $action->$method($_POST);
                     die();
                 } else {
+                    if(isset($route['lang'])){
+                        $localization = require_once "../lang/" . $route['lang'] . "/" . $route['page'] . ".php";
+                    }
                     require_once "../views/pages/" . $route['page'] . ".php";
                     die();
                 }

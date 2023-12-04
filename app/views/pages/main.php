@@ -7,6 +7,8 @@
 </head>
 <body>
     <h1>Main page</h1>
-    <?php echo var_dump($_ENV) ?>
+    <!-- <?php echo var_dump($_ENV) ?> -->
+    <?php echo $localization['test'] ?>
+
 </body>
 </html>

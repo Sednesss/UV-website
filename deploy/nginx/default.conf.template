@@ -1,10 +1,10 @@
 server {
     charset utf-8;
-
+    
     listen       80;
     listen  [::]:80;
     server_name ${SERVER_NAME};
-    
+
     root ${APP_PUBLIC_PATH};
     index index.php;
 
@@ -12,14 +12,17 @@ server {
     access_log /var/log/nginx/access.log;
 
     location / {
-        root   ${APP_PUBLIC_PATH};
-        index  index.php;
         try_files $uri $uri/ /index.php?$args;
     }
 
-    error_page   404              /404.html;
-    error_page   500 502 503 504  /50x.html;
-    
+    location /assets/ {
+        try_files $uri $uri/ =404;
+    }
+
+    location = /favicon.ico {
+        try_files $uri =404;
+    }
+
     location = /50x.html {
         root   /usr/share/nginx/html;
     }

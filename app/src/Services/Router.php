@@ -5,13 +5,26 @@ namespace App\Src\Services;
 class Router
 {
     private static $list = [];
+
     public static function page($uri, $pageTitle)
     {
         self::$list[] = [
             'uri' => $uri,
             'page' => $pageTitle,
+            'post' => false
         ];
     }
+
+    public static function post($uri, $class, $method)
+    {
+        self::$list[] = [
+            'uri' => $uri,
+            'class' => $class,
+            'method' => $method,
+            'post' => true
+        ];
+    }
+
     public static function enable()
     {
         $url = $_SERVER['REQUEST_URI'];
@@ -19,17 +32,29 @@ class Router
 
         foreach (self::$list as $route) {
             if ($route['uri'] === $path) {
-                require_once "../views/pages/" . $route['page'] . ".php";
-                die();
+                if ($route['post'] === true && $_SERVER['REQUEST_METHOD'] === 'POST') {
+                    $action = new $route['class'];
+                    $method = $route['method'];
+                    $action->$method($_POST);
+                    die();
+                } else {
+                    require_once "../views/pages/" . $route['page'] . ".php";
+                    die();
+                }
             }
         }
 
-        self::notFoundPage();
+        self::error('404');
     }
 
-    private static function notFoundPage()
+    private static function error($error)
     {
-        require_once "../views/errors/404.php";
+        require_once "../views/errors/" . $error . ".php";
         die();
+    }
+
+    private static function redirect($uri)
+    {
+        header('Location: ' . $uri);
     }
 }

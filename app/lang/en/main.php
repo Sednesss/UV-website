@@ -1,6 +1,8 @@
 <?php
 
 return [
-
-    'test'               => 'TEST',
+    'lang'                => 'en',
+    'title'               => 'Title',
+    'header'              => 'Header',
+    'text'                => 'Text text text',
 ];
